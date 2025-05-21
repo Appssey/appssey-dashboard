@@ -33,8 +33,9 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
   const handleDownload = () => {
     const url = app.screens[currentScreen]?.url;
     if (!url) return;
+    const proxyUrl = `/.netlify/functions/downloadImage?url=${encodeURIComponent(url)}`;
     const link = document.createElement('a');
-    link.href = url;
+    link.href = proxyUrl;
     link.setAttribute('download', app.name + '-screen');
     link.setAttribute('target', '_blank');
     document.body.appendChild(link);
