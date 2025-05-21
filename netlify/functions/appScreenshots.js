@@ -8,7 +8,7 @@ export const handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Missing appId' }) };
   }
   const { data, error } = await supabase
-    .from('screenshots')
+    .from('screens')
     .select('id, url, tags')
     .eq('app_id', appId);
   if (error) {

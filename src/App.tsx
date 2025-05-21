@@ -9,7 +9,6 @@ import Users from './pages/admin/Users';
 import Apps from './pages/admin/Apps';
 import Categories from './pages/admin/Categories';
 import AppScreenshotsPage from './pages/AppScreenshotsPage';
-import TestUpload from './components/TestUpload';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      <TestUpload />
     </AuthProvider>
   );
 }

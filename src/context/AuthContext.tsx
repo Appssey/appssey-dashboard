@@ -115,11 +115,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // --- Check user status ---
     const status = await checkUserStatus(data.user.id);
-    if (status !== 'active') {
+    // Allow login if status is missing or 'active'
+    if (status && status !== 'active') {
       await supabase.auth.signOut();
       alert('Your account is deactivated. Please contact support.');
       return false;
-    }
+        }
     // --- End check user status ---
 
     setState((prev) => ({
@@ -142,7 +143,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         const status = await checkUserStatus(session.user.id);
-        if (status !== 'active') {
+        // Allow login if status is missing or 'active'
+        if (status && status !== 'active') {
           await supabase.auth.signOut();
           setState(initialState);
           alert('Your account is deactivated. Please contact support.');

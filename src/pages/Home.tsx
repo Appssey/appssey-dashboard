@@ -9,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 import AppCard from '../components/app/AppCard';
 import LoginModal from '../components/auth/LoginModal';
 import AppDetailModal from '../components/ui/AppDetailModal';
-import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
@@ -32,18 +31,16 @@ const Home: React.FC = () => {
     const maxVisible = columns * maxRows;
     const shouldShowFade = !isAuthenticated && filteredApps.length > maxVisible;
 
-    // Fetch all apps from Supabase on mount
+    // Fetch all apps from Netlify function on mount
     useEffect(() => {
       const fetchApps = async () => {
         setLoading(true);
-        let { data, error } = await supabase
-          .from('apps')
-          .select('*');
-        if (error) {
-          console.error('Error fetching apps:', error);
+        const res = await fetch('/.netlify/functions/getApps');
+        const data = await res.json();
+        if (!Array.isArray(data)) {
           setAllApps([]);
         } else {
-          setAllApps(data || []);
+          setAllApps(data);
         }
         setLoading(false);
       };
@@ -53,13 +50,10 @@ const Home: React.FC = () => {
     // Fetch categories from Supabase on mount
     useEffect(() => {
       const fetchCategories = async () => {
-        let { data, error } = await supabase.from('categories').select('id, name').order('order');
-        if (error) {
-          console.error('Error fetching categories:', error);
-          setCategories([]);
-        } else {
-          setCategories(data || []);
-        }
+        let res = await fetch('/.netlify/functions/adminCategories');
+        let data = await res.json();
+        if (!Array.isArray(data)) setCategories([]);
+        else setCategories(data);
       };
       fetchCategories();
     }, []);
@@ -81,15 +75,15 @@ const Home: React.FC = () => {
     }, [allApps, selectedCategory, searchQuery]);
 
     return (
-      <div className="min-h-screen bg-background text-primary">
+      <div className="min-h-screen bg-background text-primary" onContextMenu={e => e.preventDefault()}>
         <Header onSearch={setSearchQuery} />
         <main className="container mx-auto px-4 sm:px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 flex-wrap">
             {/* Left logos */}
             <div className="flex gap-3 sm:gap-6 items-center mb-4 sm:mb-0">
-              <img src="/src/assets/logos/Container.png" alt="Creme" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain cursor-pointer" onClick={() => navigate('/explore?appId=creme_id')} />
-              <img src="/src/assets/logos/Container-1.png" alt="Nike" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-white p-2 cursor-pointer" onClick={() => navigate('/explore?appId=nike_id')} />
-              <img src="/src/assets/logos/Container-2.png" alt="Discord" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-yellow-400 p-2 cursor-pointer" onClick={() => navigate('/explore?appId=discord_id')} />
+              <img src="/src/assets/logos/Container.png" alt="Creme" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain" />
+              <img src="/src/assets/logos/Container-1.png" alt="Nike" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-white p-2" />
+              <img src="/src/assets/logos/Container-2.png" alt="Discord" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-yellow-400 p-2" />
             </div>
             {/* Center heading */}
             <h1 className="text-3xl sm:text-6xl font-bold text-center flex-1 mb-4 sm:mb-0">
@@ -97,9 +91,9 @@ const Home: React.FC = () => {
             </h1>
             {/* Right logos */}
             <div className="flex gap-3 sm:gap-6 items-center">
-              <img src="/src/assets/logos/Container-3.png" alt="Dropbox" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-blue-500 p-2 cursor-pointer" onClick={() => navigate('/explore?appId=dropbox_id')} />
-              <img src="/src/assets/logos/Container-4.png" alt="Marvel" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-pink-200 p-2 cursor-pointer" onClick={() => navigate('/explore?appId=marvel_id')} />
-              <img src="/src/assets/logos/image.png" alt="Wise" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-green-200 p-2 cursor-pointer" onClick={() => navigate('/explore?appId=wise_id')} />
+              <img src="/src/assets/logos/Container-3.png" alt="Dropbox" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-blue-500 p-2" />
+              <img src="/src/assets/logos/Container-4.png" alt="Marvel" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-pink-200 p-2" />
+              <img src="/src/assets/logos/image.png" alt="Wise" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-green-200 p-2" />
             </div>
           </div>
           <div className="max-w-lg mx-auto mb-12">

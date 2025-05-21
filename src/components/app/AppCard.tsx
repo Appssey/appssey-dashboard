@@ -26,15 +26,15 @@ const AppCard: React.FC<AppCardProps> = ({ app, onClick, onScreenClick }) => {
             Updated
           </div>
         )}
-        <div className="aspect-[16/9] rounded-lg overflow-hidden flex items-center justify-center bg-background-light">
+        <div className="w-full max-h-64 overflow-y-auto rounded-lg bg-background-light flex items-start justify-center">
           {screens.length > 1 ? (
-            <div className="flex w-full h-full gap-1">
+            <div className="flex w-full gap-1">
               {screens.map((screen, idx) => (
                 <img
-                  key={screen.id}
+                  key={screen.id || idx}
                   src={screen.url}
                   alt={screen.alt}
-                  className="w-full h-full object-contain cursor-pointer"
+                  className="w-full h-auto cursor-pointer block"
                   onClick={e => {
                     e.stopPropagation();
                     onScreenClick && onScreenClick(idx);
@@ -46,7 +46,7 @@ const AppCard: React.FC<AppCardProps> = ({ app, onClick, onScreenClick }) => {
             <img
               src={screens[0].url}
               alt={screens[0].alt}
-              className="w-full h-full object-contain"
+              className="w-full h-auto block"
             />
           ) : null}
         </div>
@@ -62,7 +62,7 @@ const AppCard: React.FC<AppCardProps> = ({ app, onClick, onScreenClick }) => {
         </div>
         <div>
           <h3 className="text-primary font-medium">{app.name}</h3>
-          <p className="text-primary-muted text-sm">{app.description}</p>
+          <p className="text-primary-muted text-sm">{(app as any).tagline || ''}</p>
         </div>
       </div>
     </motion.div>
