@@ -33,7 +33,13 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
   const handleDownload = () => {
     const url = app.screens[currentScreen]?.url;
     if (!url) return;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', app.name + '-screen');
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const platform = 'Web';
