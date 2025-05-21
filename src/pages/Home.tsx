@@ -81,9 +81,9 @@ const Home: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 flex-wrap">
             {/* Left logos */}
             <div className="flex gap-3 sm:gap-6 items-center mb-4 sm:mb-0">
-              <img src="/src/assets/logos/Container.png" alt="Creme" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain" />
-              <img src="/src/assets/logos/Container-1.png" alt="Nike" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-white p-2" />
-              <img src="/src/assets/logos/Container-2.png" alt="Discord" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-yellow-400 p-2" />
+              <img src="/logos/Container.png" alt="Creme" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain" />
+              <img src="/logos/Container-1.png" alt="Nike" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-white p-2" />
+              <img src="/logos/Container-2.png" alt="Discord" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-yellow-400 p-2" />
             </div>
             {/* Center heading */}
             <h1 className="text-3xl sm:text-6xl font-bold text-center flex-1 mb-4 sm:mb-0">
@@ -91,9 +91,9 @@ const Home: React.FC = () => {
             </h1>
             {/* Right logos */}
             <div className="flex gap-3 sm:gap-6 items-center">
-              <img src="/src/assets/logos/Container-3.png" alt="Dropbox" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-blue-500 p-2" />
-              <img src="/src/assets/logos/Container-4.png" alt="Marvel" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-pink-200 p-2" />
-              <img src="/src/assets/logos/image.png" alt="Wise" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-green-200 p-2" />
+              <img src="/logos/Container-3.png" alt="Dropbox" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-blue-500 p-2" />
+              <img src="/logos/Container-4.png" alt="Marvel" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-pink-200 p-2" />
+              <img src="/logos/image.png" alt="Wise" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain bg-green-200 p-2" />
             </div>
           </div>
           <div className="max-w-lg mx-auto mb-12">
