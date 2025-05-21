@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -10,7 +12,7 @@ export const handler = async (event) => {
   }
   if (email === adminEmail && password === adminPassword) {
     // Generate a simple session token
-    const token = require('crypto').randomBytes(32).toString('hex');
+    const token = crypto.randomBytes(32).toString('hex');
     // Optionally, you could store this in a DB or cache for real logout/session expiry
     return {
       statusCode: 200,

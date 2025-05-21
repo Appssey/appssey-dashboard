@@ -1,3 +1,6 @@
+import cloudinaryModule from 'cloudinary';
+const cloudinary = cloudinaryModule.v2;
+
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -20,7 +23,6 @@ export const handler = async (event) => {
       };
     }
 
-    const cloudinary = require('cloudinary').v2;
     cloudinary.config({
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
