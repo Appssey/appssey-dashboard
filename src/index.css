@@ -66,3 +66,16 @@ body {
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiJ-Ek-_EeA.woff2) format('woff2');
 }
+
+.fancy-floating-card {
+  animation: fancy-float 7s ease-in-out infinite alternate, fancy-rotate 12s linear infinite;
+}
+@keyframes fancy-float {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
+@keyframes fancy-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(2deg); }
+}

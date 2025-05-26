@@ -135,7 +135,7 @@ const Home: React.FC = () => {
                         Log in or sign up to continue browsing apps
                       </button>
                       <p className="text-xs text-primary-muted text-center max-w-xs">
-                        By continuing, you acknowledge that you have read and understood, and agree to Mobbin's Terms of Service and Privacy Policy.
+                        By continuing, you acknowledge that you have read and understood, and agree to appssey's Terms of Service and Privacy Policy.
                       </p>
                     </div>
                   </div>

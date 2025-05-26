@@ -1,0 +1,36 @@
+@keyframes dissolve-in {
+  0% {
+    opacity: 0;
+    filter: blur(24px) grayscale(1) brightness(2);
+    transform: scale(1.1);
+  }
+  80% {
+    filter: blur(2px) grayscale(0.2) brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0) grayscale(0) brightness(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes dissolve-out {
+  0% {
+    opacity: 1;
+    filter: blur(0) grayscale(0) brightness(1);
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(24px) grayscale(1) brightness(2);
+    transform: scale(0.95);
+  }
+}
+
+.dissolve-in {
+  animation: dissolve-in 0.7s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.dissolve-out {
+  animation: dissolve-out 0.5s cubic-bezier(.4,0,.2,1) forwards;
+} 

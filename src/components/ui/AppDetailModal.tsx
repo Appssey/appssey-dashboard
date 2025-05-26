@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { App } from '../../types/app.types';
 import { X, Download, Share2 } from 'lucide-react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import './AppDetailModal.css';
 
 interface AppDetailModalProps {
   app: App;
@@ -14,6 +15,8 @@ interface AppDetailModalProps {
 const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedScreenIndex = 0 }) => {
   const [copied, setCopied] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(selectedScreenIndex);
+  const [animation, setAnimation] = useState<'dissolve-in' | 'dissolve-out'>('dissolve-in');
+  const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Disable background scroll when modal is open
@@ -23,6 +26,45 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
       document.body.classList.remove('overflow-hidden');
     };
   }, []);
+
+  // Animation effect
+  useEffect(() => {
+    if (modalRef.current) {
+      const modal = modalRef.current;
+      const filter = modal.querySelector('feDisplacementMap');
+      if (filter) {
+        // Opening animation
+        const startTime = performance.now();
+        const duration = 1000; // 1 second
+        const maxScale = 2000;
+
+        const animate = (currentTime: number) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+
+          if (filter instanceof SVGElement) {
+            filter.setAttribute('scale', String(easeProgress * maxScale));
+          }
+          modal.style.transform = `scale(${1 + 0.1 * easeProgress})`;
+          modal.style.opacity = String(easeProgress);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
+        };
+
+        requestAnimationFrame(animate);
+      }
+    }
+  }, []);
+
+  const handleClose = () => {
+    setAnimation('dissolve-out');
+    setTimeout(() => {
+      onClose();
+    }, 500); // match dissolve-out duration
+  };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href + '?app=' + app.id);
@@ -62,9 +104,30 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
   // For categories, fallback to array if not present
   const categories = Array.isArray(app.category) ? app.category : [app.category].filter(Boolean);
 
+  // Noise overlay SVG as a React component
+  const NoiseOverlay = () => (
+    <div style={{
+      pointerEvents: 'none',
+      position: 'absolute',
+      inset: 0,
+      zIndex: 20,
+      opacity: 0.18,
+      mixBlendMode: 'overlay',
+      backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><filter id=\'n\'><feTurbulence baseFrequency=\'0.8\' /></filter><rect width=\'200\' height=\'200\' filter=\'url(%23n)\' opacity=\'0.5\'/></svg>")',
+      backgroundRepeat: 'repeat',
+      borderRadius: 'inherit',
+    }} />
+  );
+
   const modalContent = (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-2 md:p-6" onClick={onClose}>
-      <div className="relative w-full max-w-5xl bg-transparent rounded-3xl shadow-2xl overflow-hidden mx-auto flex flex-col md:flex-row border-none" onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-2 md:p-6" onClick={handleClose}>
+      <div
+        ref={modalRef}
+        className={`relative w-full max-w-5xl bg-transparent rounded-3xl shadow-2xl overflow-hidden mx-auto flex flex-col md:flex-row border-none ${animation}`}
+        onClick={e => e.stopPropagation()}
+        style={{ position: 'relative' }}
+      >
+        <NoiseOverlay />
         {/* Left: Screenshot Section */}
         <div className="flex-1 bg-white rounded-l-3xl p-0 min-h-[400px] max-h-[80vh] flex items-stretch">
           <div className="w-full h-full overflow-y-auto" style={{ height: '80vh' }}>
@@ -112,7 +175,7 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
         {/* Right: Info Panel - Figma style left-aligned */}
         <div className="w-full md:w-[340px] flex flex-col justify-between bg-[#18181b] rounded-r-3xl p-8 min-h-[400px] max-h-[80vh] relative">
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute top-4 right-4 text-primary-muted hover:text-primary z-10"
             aria-label="Close"
           >
