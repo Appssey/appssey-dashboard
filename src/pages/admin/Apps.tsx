@@ -15,6 +15,7 @@ const Apps: React.FC = () => {
   const [screenshotsFiles, setScreenshotsFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [search, setSearch] = useState('');
 
   // Fetch categories
   const fetchCategories = () => {
@@ -147,6 +148,13 @@ const Apps: React.FC = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Apps</h2>
+      <input
+        type="text"
+        placeholder="Search apps..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        className="mb-4 px-3 py-2 rounded border border-gray-600 bg-gray-800 text-white w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
       <button className="mb-4 px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition" onClick={() => { setModalOpen(true); setEditMode(false); setForm({ id: '', name: '', description: '', tagline: '', logo_url: '', category_id: '', screenshots: [] }); }}>
         + Add App
       </button>
@@ -168,7 +176,16 @@ const Apps: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {apps.map(app => (
+              {apps
+                .filter(app => {
+                  const q = search.toLowerCase();
+                  return (
+                    app.name?.toLowerCase().includes(q) ||
+                    app.tagline?.toLowerCase().includes(q) ||
+                    app.description?.toLowerCase().includes(q)
+                  );
+                })
+                .map(app => (
                 <tr key={app.id} className="border-t border-gray-700 hover:bg-gray-700/30">
                   <td className="p-2"><img src={app.logo_url} alt={app.name} className="w-10 h-10 rounded bg-background-light object-contain" /></td>
                   <td className="p-2 font-semibold">{app.name}</td>

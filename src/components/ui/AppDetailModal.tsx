@@ -68,29 +68,46 @@ const AppDetailModal: React.FC<AppDetailModalProps> = ({ app, onClose, selectedS
         {/* Left: Screenshot Section */}
         <div className="flex-1 bg-white rounded-l-3xl p-0 min-h-[400px] max-h-[80vh] flex items-stretch">
           <div className="w-full h-full overflow-y-auto" style={{ height: '80vh' }}>
-            {totalScreens > 0 && app.screens[currentScreen] ? (
-              <img
-                src={app.screens[currentScreen].url}
-                alt={app.screens[currentScreen].alt}
-                className="w-full h-auto block rounded-2xl shadow-lg bg-white"
-              />
+            {totalScreens > 0 && app.screens.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {app.screens.map((screen, idx) => (
+                  <img
+                    key={screen.id || idx}
+                    src={screen.url}
+                    alt={screen.alt || `Screenshot ${idx + 1}`}
+                    onError={(e) => {
+                      console.error('Failed to load image:', {
+                        url: screen.url,
+                        app: app.name,
+                        screenId: screen.id,
+                        index: idx
+                      });
+                      e.currentTarget.src = 'https://via.placeholder.com/900x600?text=Image+Not+Found';
+                    }}
+                    onLoad={(e) => {
+                      console.log('Successfully loaded image:', {
+                        url: screen.url,
+                        app: app.name,
+                        screenId: screen.id,
+                        index: idx
+                      });
+                    }}
+                    style={{
+                      width: '100%',
+                      maxWidth: '900px',
+                      margin: '0 auto',
+                      boxShadow: 'none',
+                      borderRadius: 0,
+                      display: 'block',
+                      marginBottom: 0,
+                    }}
+                  />
+                ))}
+              </div>
             ) : (
               <div className="text-gray-400 text-center w-full">No screenshots available</div>
             )}
           </div>
-          {hasMultipleScreens && (
-            <>
-              <button onClick={handlePrev} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white rounded-full p-2 z-10 shadow" aria-label="Previous screenshot">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              </button>
-              <button onClick={handleNext} className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white rounded-full p-2 z-10 shadow" aria-label="Next screenshot">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
-              <div className="absolute left-4 bottom-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full shadow">
-                {currentScreen + 1} / {totalScreens}
-              </div>
-            </>
-          )}
         </div>
         {/* Right: Info Panel - Figma style left-aligned */}
         <div className="w-full md:w-[340px] flex flex-col justify-between bg-[#18181b] rounded-r-3xl p-8 min-h-[400px] max-h-[80vh] relative">

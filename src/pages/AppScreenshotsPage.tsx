@@ -67,9 +67,39 @@ const AppScreenshotsPage: React.FC = () => {
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {filteredScreenshots.map(s => (
-              <img key={s.id || s.url} src={s.url} alt="" className="rounded-lg w-full aspect-video object-cover" />
+          <div className="flex flex-col items-center">
+            {filteredScreenshots.map((s, idx) => (
+              <img
+                key={s.id || s.url || idx}
+                src={s.url}
+                alt=""
+                onError={(e) => {
+                  console.error('Failed to load image:', {
+                    url: s.url,
+                    app: selectedApp?.name,
+                    screenId: s.id,
+                    index: idx
+                  });
+                  e.currentTarget.src = 'https://via.placeholder.com/900x600?text=Image+Not+Found';
+                }}
+                onLoad={(e) => {
+                  console.log('Successfully loaded image:', {
+                    url: s.url,
+                    app: selectedApp?.name,
+                    screenId: s.id,
+                    index: idx
+                  });
+                }}
+                style={{
+                  width: '100%',
+                  maxWidth: '900px',
+                  margin: '0 auto',
+                  boxShadow: 'none',
+                  borderRadius: 0,
+                  display: 'block',
+                  marginBottom: 0,
+                }}
+              />
             ))}
           </div>
         </>

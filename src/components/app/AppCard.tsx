@@ -27,27 +27,24 @@ const AppCard: React.FC<AppCardProps> = ({ app, onClick, onScreenClick }) => {
           </div>
         )}
         <div className="w-full max-h-64 overflow-y-auto rounded-lg bg-background-light flex items-start justify-center">
-          {screens.length > 1 ? (
+          {screens.length > 0 ? (
             <div className="flex w-full gap-1">
               {screens.map((screen, idx) => (
                 <img
                   key={screen.id || idx}
                   src={screen.url}
-                  alt={screen.alt}
+                  alt={screen.alt || `${app.name} screenshot`}
                   className="w-full h-auto cursor-pointer block"
                   onClick={e => {
                     e.stopPropagation();
                     onScreenClick && onScreenClick(idx);
                   }}
+                  onError={e => {
+                    e.currentTarget.src = 'https://via.placeholder.com/900x600?text=Image+Not+Found';
+                  }}
                 />
               ))}
             </div>
-          ) : screens.length > 0 ? (
-            <img
-              src={screens[0].url}
-              alt={screens[0].alt}
-              className="w-full h-auto block"
-            />
           ) : null}
         </div>
       </div>

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "mp_e51451e85b80fb581e0ee27c5d6f9955_mixpanel",
+    "value": "%7B%22distinct_id%22%3A159532%2C%22%24device_id%22%3A%2258b5ced4-30de-457f-a52f-bb16d152ed0e%22%2C%22%24initial_referrer%22%3A%22%24direct%22%2C%22%24initial_referring_domain%22%3A%22%24direct%22%2C%22__mps%22%3A%7B%7D%2C%22__mpso%22%3A%7B%7D%2C%22__mpus%22%3A%7B%7D%2C%22__mpa%22%3A%7B%7D%2C%22__mpu%22%3A%7B%7D%2C%22__mpr%22%3A%5B%5D%2C%22__mpap%22%3A%5B%5D%2C%22%24user_id%22%3A159532%7D",
+    "domain": ".refero.design",
+    "path": "/",
+    "expires": 1779557712,
+    "size": 434,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga_2D9W4X8160",
+    "value": "GS2.1.s1748020102$o1$g1$t1748021682$j0$l0$h0",
+    "domain": ".refero.design",
+    "path": "/",
+    "expires": 1782581682.947438,
+    "size": 58,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga",
+    "value": "GA1.1.1115588045.1748020103",
+    "domain": ".refero.design",
+    "path": "/",
+    "expires": 1782581682.947548,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  }
+]

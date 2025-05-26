@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { FiHome, FiUsers, FiGrid, FiTag, FiMenu } from 'react-icons/fi';
+import { FiHome, FiUsers, FiGrid, FiTag, FiMenu, FiUpload } from 'react-icons/fi';
 
 const links = [
   { to: '/admin', label: 'Dashboard', icon: FiHome },
   { to: '/admin/users', label: 'Users', icon: FiUsers },
   { to: '/admin/apps', label: 'Apps', icon: FiGrid },
   { to: '/admin/categories', label: 'Categories', icon: FiTag },
+  { to: '/admin/bulk-import', label: 'Bulk Import', icon: FiUpload },
 ];
 
 const Sidebar: React.FC = () => {

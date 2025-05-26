@@ -8,6 +8,7 @@ import Dashboard from './pages/admin/Dashboard';
 import Users from './pages/admin/Users';
 import Apps from './pages/admin/Apps';
 import Categories from './pages/admin/Categories';
+import BulkImport from './pages/admin/BulkImport';
 import AppScreenshotsPage from './pages/AppScreenshotsPage';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="apps" element={<Apps />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="bulk-import" element={<BulkImport />} />
           </Route>
         </Routes>
       </Router>
